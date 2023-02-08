@@ -33,6 +33,24 @@
       },
       "dependsOn": ["build-ssr"]
     },
+    "preview-all": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx serve header",
+            "color": "yellow",
+            "prefix": "HEADER |"
+          },           
+          {
+            "command": "nx serve host",
+            "color": "green",
+            "prefix": "HOST    |"
+          }
+        ],
+        "parallel": true
+      }
+    },    
     "test": {
       "executor": "@nrwl/vite:test",
       "outputs": ["../../coverage/apps/host"],
@@ -59,6 +77,24 @@
         }
       }
     },
+    "serve-all": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx serve header",
+            "color": "yellow",
+            "prefix": "HEADER |"
+          },           
+          {
+            "command": "nx serve host",
+            "color": "green",
+            "prefix": "HOST    |"
+          }
+        ],
+        "parallel": true
+      }
+    },    
     "serveDebug": {
       "executor": "nx:run-commands",
       "options": {
