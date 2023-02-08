@@ -1,0 +1,78 @@
+{
+  "name": "host",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/host/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/vite:build",
+      "options": {
+        "outputPath": "dist/apps/host",
+        "configFile": "apps/host/vite.config.ts"
+      }
+    },
+    "build-ssr": {
+      "executor": "@nrwl/vite:build",
+      "defaultConfiguration": "preview",
+      "options": {
+        "outputPath": "dist/apps/host"
+      },
+      "configurations": {
+        "preview": {
+          "ssr": "src/entry.preview.tsx",
+          "mode": "production"
+        }
+      },
+      "dependsOn": ["build"]
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite preview",
+        "cwd": "apps/host"
+      },
+      "dependsOn": ["build-ssr"]
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["../../coverage/apps/host"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/apps/host"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "host:build",
+        "mode": "ssr"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "host:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "host:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "serveDebug": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --inspect-brk ../..//node_modules/vite/bin/vite.js --mode ssr --force",
+        "cwd": "apps/host"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/host/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}
